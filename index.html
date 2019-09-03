@@ -47,6 +47,21 @@
  	  <script src="/lib/clickLove.js"></script>
   
   
+  
+  <script>
+    (function () {
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
 
 
   
@@ -64,7 +79,7 @@
 <div class="intrude-less">
 	<header id="header" class="inner">
 		<a href="/" class="profilepic">
-			<img src="/img/head.jpg" class="js-avatar">
+			<img src="/img/head.gif" class="js-avatar">
 		</a>
 		<hgroup>
 		  <h1 class="header-author"><a href="/">Duan Zhenshuai</a></h1>
@@ -136,7 +151,7 @@
 		<header id="header" class="inner">
 			<div class="profilepic">
 				<a href="/">
-					<img src="/img/head.jpg" class="js-avatar">
+					<img src="/img/head.gif" class="js-avatar">
 				</a>
 			</div>
 			<hgroup>
@@ -198,6 +213,282 @@
           </div>
           <div id="js-content" class="content-ll">
             
+
+  
+    <article id="post-js-pako-demo" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+  
+  
+    <h1 itemprop="name">
+	
+	  <a class="article-title" href="/2019/09/03/js-pako-demo/" target="_blank">pako-demo</a>
+  
+    </h1>
+  
+
+
+  
+  
+<a href="/2019/09/03/js-pako-demo/" class="archive-article-date">
+        <time datetime="2019-09-03T01:40:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-03</time>
+</a>
+
+  
+  
+  </header>
+  
+  <div class="article-entry" itemprop="articleBody">
+    
+    <blockquote>
+<p>描述</p>
+</blockquote>
+<p>关键字 <code>Code Repository</code> <code>java</code> <code>js</code> <code>nodejs</code> </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pako <span class="keyword">from</span> <span class="string">'pako'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 压缩</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> zip = <span class="function">(<span class="params">str</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">let</span> binaryString = pako.gzip(<span class="built_in">encodeURIComponent</span>(str), &#123; <span class="attr">to</span>: <span class="string">'string'</span> &#125;)</span><br><span class="line">  <span class="keyword">return</span> btoa(binaryString)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 解压缩</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> unzip = <span class="function">(<span class="params">sourceDate</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">let</span> strData = atob(sourceDate)</span><br><span class="line">  <span class="comment">// Convert binary string to character-number array</span></span><br><span class="line">  <span class="keyword">let</span> charData = strData.split(<span class="string">''</span>).map(<span class="function"><span class="keyword">function</span> (<span class="params">x</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> x.charCodeAt(<span class="number">0</span>)</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="comment">// Turn number array into byte-array</span></span><br><span class="line">  <span class="keyword">let</span> binData = <span class="keyword">new</span> <span class="built_in">Uint8Array</span>(charData)</span><br><span class="line">  <span class="comment">// // unzip</span></span><br><span class="line">  <span class="keyword">let</span> data = pako.inflate(binData)</span><br><span class="line">  <span class="comment">// Convert gunzipped byteArray back to ascii string:</span></span><br><span class="line">  <span class="comment">// 使用handleCodePoints防止堆栈溢出，原理未知，参考：https://www.jianshu.com/p/0d5791718b52</span></span><br><span class="line">  <span class="comment">// strData = String.fromCharCode.apply(null, new Uint16Array(data))</span></span><br><span class="line">  strData = handleCodePoints(data)</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">decodeURIComponent</span>(strData)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleCodePoints</span> (<span class="params">array</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> CHUNK_SIZE = <span class="number">0x8000</span> <span class="comment">// arbitrary number here, not too small, not too big</span></span><br><span class="line">  <span class="keyword">let</span> index = <span class="number">0</span></span><br><span class="line">  <span class="keyword">let</span> length = array.length</span><br><span class="line">  <span class="keyword">let</span> result = <span class="string">''</span></span><br><span class="line">  <span class="keyword">let</span> slice</span><br><span class="line">  <span class="keyword">let</span> arr = []</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>, _i = array.length; i &lt; _i; i++) &#123;</span><br><span class="line">    arr[i] = array[i]</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">while</span> (index &lt; length) &#123;</span><br><span class="line">    slice = arr.slice(index, <span class="built_in">Math</span>.min(index + CHUNK_SIZE, length)) <span class="comment">// `Math.min` is not really necessary here I think</span></span><br><span class="line">    result += <span class="built_in">String</span>.fromCharCode.apply(<span class="literal">null</span>, slice)</span><br><span class="line">    index += CHUNK_SIZE</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>总结:对于内容太多的解压缩会出现堆栈溢出的情况，所以需要用handleCodePoints去处理一下，详细情况请参阅<a href="https://www.jianshu.com/p/0d5791718b52" target="_blank" rel="noopener">https://www.jianshu.com/p/0d5791718b52</a></p>
+</blockquote>
+<blockquote>
+<p>以下摘录部分原文：<br>通过一般方式，可以正确解析数据，但是当数据量过大时，pako会报错误Maximumcallstacksizeexceeded;所以需要handleCodePoints方式处理，即将所有数据进行循环分块解析</p>
+</blockquote>
+
+    
+
+    
+
+    
+
+  </div>
+  <div class="article-info article-info-index">
+    
+    
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Code Repository</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">zip</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">js</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+    
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Code-Repository//" class="article-tag-list-link color1">Code Repository</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+    
+    <p class="article-more-link">
+      <a class="article-more-a" href="/2019/09/03/js-pako-demo/">展开全文 >></a>
+    </p>
+    
+
+    
+    <div class="clearfix"></div>
+  </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+
+  <section id="comments" class="comments">
+    <style>
+      .comments{margin:30px;padding:10px;background:#fff}
+      @media screen and (max-width:800px){.comments{margin:auto;padding:10px;background:#fff}}
+    </style>
+    <div id="vcomment" class="comment"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script>
+    var notify = 'false' == true ? true : false;
+    var verify = 'false' == true ? true : false;
+    window.onload = function() {
+        new Valine({
+            el: '.comment',
+            notify: notify,
+            verify: verify,
+            app_id: "H4dHG58Xmb6RjqUfYVNLup3w-gzGzoHsz",
+            app_key: "WjFgGnIRw2rAdtbuQWgSLl1e",
+            placeholder: "Just go go",
+            avatar:"mm"
+        });
+    }
+</script>
+
+  </section>
+
+
+  
+    <article id="post-js-clipboard-copy" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+  
+  
+    <h1 itemprop="name">
+	
+	  <a class="article-title" href="/2019/09/02/js-clipboard-copy/" target="_blank">原生js复制内容到剪切板</a>
+  
+    </h1>
+  
+
+
+  
+  
+<a href="/2019/09/02/js-clipboard-copy/" class="archive-article-date">
+        <time datetime="2019-09-02T09:51:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-02</time>
+</a>
+
+  
+  
+  </header>
+  
+  <div class="article-entry" itemprop="articleBody">
+    
+    <p>关键字 <code>Code Repository</code> <code>js</code> <code>clipboard</code> </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">execCoy(text) &#123;</span><br><span class="line">    <span class="keyword">const</span> input = <span class="built_in">document</span>.createElement(<span class="string">'INPUT'</span>);</span><br><span class="line">    input.style.opacity  = <span class="number">0</span>;</span><br><span class="line">    input.style.position = <span class="string">'absolute'</span>;</span><br><span class="line">    input.style.left = <span class="string">'-100000px'</span>;</span><br><span class="line">    <span class="built_in">document</span>.body.appendChild(input);</span><br><span class="line"></span><br><span class="line">    input.value = text;</span><br><span class="line">    input.select();</span><br><span class="line">    input.setSelectionRange(<span class="number">0</span>, text.length);</span><br><span class="line">    <span class="built_in">document</span>.execCommand(<span class="string">'copy'</span>);</span><br><span class="line">    <span class="built_in">document</span>.body.removeChild(input);</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>利用一个不可见input，将要复制的文本写入value，再执行setSelectionRange选中，然后执行document.execCommand(‘copy’)将value写入系统剪切板。</p>
+</blockquote>
+
+    
+
+    
+
+    
+
+  </div>
+  <div class="article-info article-info-index">
+    
+    
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Code Repository</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">js</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">clipboard</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+    
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Code-Repository//" class="article-tag-list-link color1">Code Repository</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+    
+    <p class="article-more-link">
+      <a class="article-more-a" href="/2019/09/02/js-clipboard-copy/">展开全文 >></a>
+    </p>
+    
+
+    
+    <div class="clearfix"></div>
+  </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+
+  <section id="comments" class="comments">
+    <style>
+      .comments{margin:30px;padding:10px;background:#fff}
+      @media screen and (max-width:800px){.comments{margin:auto;padding:10px;background:#fff}}
+    </style>
+    <div id="vcomment" class="comment"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script>
+    var notify = 'false' == true ? true : false;
+    var verify = 'false' == true ? true : false;
+    window.onload = function() {
+        new Valine({
+            el: '.comment',
+            notify: notify,
+            verify: verify,
+            app_id: "H4dHG58Xmb6RjqUfYVNLup3w-gzGzoHsz",
+            app_key: "WjFgGnIRw2rAdtbuQWgSLl1e",
+            placeholder: "Just go go",
+            avatar:"mm"
+        });
+    }
+</script>
+
+  </section>
+
 
   
     <article id="post-hello-world" class="article article-type-post  article-index" itemscope itemprop="blogPost">
@@ -322,7 +613,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2018-2019 Duan Zhenshuai
+    		&copy; 2019 Duan Zhenshuai
     	</div>
       	<div class="footer-right">
 			
@@ -439,6 +730,22 @@
             <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
           </label>
           <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Code Repository</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">zip</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">js</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">clipboard</a>
+              </li>
             
             <div class="clearfix"></div>
           </ul>
