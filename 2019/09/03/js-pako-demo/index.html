@@ -9,18 +9,18 @@
   <title>pako-demo | 码上行动</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="description" content="描述  关键字 Code Repository java js nodejs  12345678910111213141516171819202122232425262728293031323334353637383940414243import pako from &apos;pako&apos;// 压缩export const zip = (str) =&amp;gt; &amp;#123;  let binaryStrin">
-<meta name="keywords" content="Code Repository,zip,js">
+  <meta name="description" content="描述  关键字 Code Repository zip js pako  12345678910111213141516171819202122232425262728293031323334353637383940414243import pako from &apos;pako&apos;// 压缩export const zip = (str) =&amp;gt; &amp;#123;  let binaryString =">
+<meta name="keywords" content="Code Repository,js,zip,pako">
 <meta property="og:type" content="article">
 <meta property="og:title" content="pako-demo">
 <meta property="og:url" content="http://yoursite.com/2019/09/03/js-pako-demo/index.html">
 <meta property="og:site_name" content="码上行动">
-<meta property="og:description" content="描述  关键字 Code Repository java js nodejs  12345678910111213141516171819202122232425262728293031323334353637383940414243import pako from &apos;pako&apos;// 压缩export const zip = (str) =&amp;gt; &amp;#123;  let binaryStrin">
+<meta property="og:description" content="描述  关键字 Code Repository zip js pako  12345678910111213141516171819202122232425262728293031323334353637383940414243import pako from &apos;pako&apos;// 压缩export const zip = (str) =&amp;gt; &amp;#123;  let binaryString =">
 <meta property="og:locale" content="cn">
-<meta property="og:updated_time" content="2019-09-03T01:47:48.014Z">
+<meta property="og:updated_time" content="2019-09-03T01:48:25.887Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="pako-demo">
-<meta name="twitter:description" content="描述  关键字 Code Repository java js nodejs  12345678910111213141516171819202122232425262728293031323334353637383940414243import pako from &apos;pako&apos;// 压缩export const zip = (str) =&amp;gt; &amp;#123;  let binaryStrin">
+<meta name="twitter:description" content="描述  关键字 Code Repository zip js pako  12345678910111213141516171819202122232425262728293031323334353637383940414243import pako from &apos;pako&apos;// 压缩export const zip = (str) =&amp;gt; &amp;#123;  let binaryString =">
   
     <link rel="alternative" href="/atom.xml" title="码上行动" type="application/atom+xml">
   
@@ -243,7 +243,7 @@
     <blockquote>
 <p>描述</p>
 </blockquote>
-<p>关键字 <code>Code Repository</code> <code>java</code> <code>js</code> <code>nodejs</code> </p>
+<p>关键字 <code>Code Repository</code> <code>zip</code> <code>js</code> <code>pako</code> </p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pako <span class="keyword">from</span> <span class="string">'pako'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 压缩</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> zip = <span class="function">(<span class="params">str</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">let</span> binaryString = pako.gzip(<span class="built_in">encodeURIComponent</span>(str), &#123; <span class="attr">to</span>: <span class="string">'string'</span> &#125;)</span><br><span class="line">  <span class="keyword">return</span> btoa(binaryString)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 解压缩</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> unzip = <span class="function">(<span class="params">sourceDate</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">let</span> strData = atob(sourceDate)</span><br><span class="line">  <span class="comment">// Convert binary string to character-number array</span></span><br><span class="line">  <span class="keyword">let</span> charData = strData.split(<span class="string">''</span>).map(<span class="function"><span class="keyword">function</span> (<span class="params">x</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> x.charCodeAt(<span class="number">0</span>)</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="comment">// Turn number array into byte-array</span></span><br><span class="line">  <span class="keyword">let</span> binData = <span class="keyword">new</span> <span class="built_in">Uint8Array</span>(charData)</span><br><span class="line">  <span class="comment">// // unzip</span></span><br><span class="line">  <span class="keyword">let</span> data = pako.inflate(binData)</span><br><span class="line">  <span class="comment">// Convert gunzipped byteArray back to ascii string:</span></span><br><span class="line">  <span class="comment">// 使用handleCodePoints防止堆栈溢出，原理未知，参考：https://www.jianshu.com/p/0d5791718b52</span></span><br><span class="line">  <span class="comment">// strData = String.fromCharCode.apply(null, new Uint16Array(data))</span></span><br><span class="line">  strData = handleCodePoints(data)</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">decodeURIComponent</span>(strData)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleCodePoints</span> (<span class="params">array</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> CHUNK_SIZE = <span class="number">0x8000</span> <span class="comment">// arbitrary number here, not too small, not too big</span></span><br><span class="line">  <span class="keyword">let</span> index = <span class="number">0</span></span><br><span class="line">  <span class="keyword">let</span> length = array.length</span><br><span class="line">  <span class="keyword">let</span> result = <span class="string">''</span></span><br><span class="line">  <span class="keyword">let</span> slice</span><br><span class="line">  <span class="keyword">let</span> arr = []</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>, _i = array.length; i &lt; _i; i++) &#123;</span><br><span class="line">    arr[i] = array[i]</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">while</span> (index &lt; length) &#123;</span><br><span class="line">    slice = arr.slice(index, <span class="built_in">Math</span>.min(index + CHUNK_SIZE, length)) <span class="comment">// `Math.min` is not really necessary here I think</span></span><br><span class="line">    result += <span class="built_in">String</span>.fromCharCode.apply(<span class="literal">null</span>, slice)</span><br><span class="line">    index += CHUNK_SIZE</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <blockquote>
@@ -304,11 +304,15 @@
         		</li>
       		 
         		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">js</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">zip</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">js</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">pako</a>
         		</li>
       		
 		</ul>
@@ -586,15 +590,19 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">zip</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">js</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">clipboard</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">zip</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">pako</a>
               </li>
             
             <div class="clearfix"></div>
