@@ -1,6 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[electron-autoUpdater]]></title>
+    <url>%2F2019%2F09%2F11%2Felectron-autoUpdate%2F</url>
+    <content type="text"><![CDATA[本次code demo展示了electron自动更新一种最常用最基本的方式。 关键字 Code Repository electron autoUpdater nodejs 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960import &#123;ipcMain&#125; from 'electron'// 注意这个autoUpdater不是electron中的autoUpdaterimport &#123;autoUpdater&#125; from "electron-updater"/** * Auto Updater * * Uncomment the following code below and install `electron-updater` to * support auto updating. Code Signing with a valid certificate is required. * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-electron-builder.html#auto-updating */// 检测更新，在你想要检查更新的时候执行，renderer事件触发后的操作自行编写export const updateHandle = (mainWindow) =&gt; &#123; let message = &#123; error: 'An error occurred while checking for updates', checking: 'Checking for updates……', updateAva: 'A new version has been detected and is being downloaded……', updateNotAva: 'It is the latest version, no need to update', &#125;; // package.json文件中publish 实际不起作用 autoUpdater.setFeedURL('http://xxx.com:8080' + '/'); autoUpdater.on('error', function (error) &#123; sendUpdateMessage(mainWindow, 'error', message.error) &#125;); autoUpdater.on('checking-for-update', function () &#123; sendUpdateMessage(mainWindow, 'checking-for-update', message.checking) &#125;); autoUpdater.on('update-available', function (info) &#123; sendUpdateMessage(mainWindow, 'update-available', message.updateAva) &#125;); autoUpdater.on('update-not-available', function (info) &#123; sendUpdateMessage(mainWindow, 'update-not-available', message.updateNotAva) &#125;); // 更新下载进度事件 autoUpdater.on('download-progress', function (progressObj) &#123; mainWindow.webContents.send('downloadProgress', progressObj) &#125;) autoUpdater.on('update-downloaded', function (event, releaseNotes, releaseName, releaseDate, updateUrl, quitAndUpdate) &#123; ipcMain.on('updateNow', (e, arg) =&gt; &#123; console.log("[UPDATER] begin..."); //some code here to handle event autoUpdater.quitAndInstall(); &#125;); mainWindow.webContents.send('isUpdateNow') &#125;); ipcMain.on("checkForUpdate", () =&gt; &#123; //执行自动更新检查 autoUpdater.checkForUpdates(); &#125;)&#125;// 通过main进程发送事件给renderer进程，提示更新信息function sendUpdateMessage(mainWindow, type, text) &#123; mainWindow.webContents.send('updater-message', type, text)&#125; 总结:autoUpdater需要配合electron-builder进行打包，electron-builder打包后会生成exe文件（推荐使用nsis），以及latest.yml。打包后将两个文件放置合适位置或服务器上。autoUpdater会根据配置路径查询latest.yml文件，并和当前version（package.json中version）做对比，当前版本较低时就会自动下载去并更新 需要注意的几个细节： 检测到有新版本时会自动下载，下载完即可自动安装 可使用主进程和渲染进程通信，控制是否自动安装 autoUpdater检测新版本通信不是基于http的，最重要是无状态的，即不能携带cookie等认证]]></content>
+      <categories>
+        <category>Code Repository</category>
+      </categories>
+      <tags>
+        <tag>Code Repository</tag>
+        <tag>electron</tag>
+        <tag>autoUpdater</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[h5-css-hover-model]]></title>
+    <url>%2F2019%2F09%2F11%2Fh5-css-hover-model%2F</url>
+    <content type="text"><![CDATA[本次code demo展示了前端样式的使用，前端很多情况下需要hover层进行其他操作，本次介绍一种基于css的解决方案。 关键字 Code Repository Html Css hover 123456789101112131415161718192021222324252627282930313233343536 // 父容器 &lt;div class="parent-card"&gt; // 此处是未hover时正常代码 &lt;div class="card-hover"&gt; // 此处未hover时div元素内容 &lt;/div&gt; &lt;/div&gt;css部分.contact-card &#123; position: relative; max-width: 200px; max-height: 100px; hover时激活 &amp;:hover&#123; .card-hover&#123; display: block; &#125; &#125; hover样式 .card-hover&#123; display: none; position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: rgba(116,195,185,.9); z-index: 11; text-align: center; &#125; &#125; 总结: 一般情况下将hover dom写于父容器之中，利用position定位父元素。另外激活hover可以是其它需要的元素]]></content>
+      <categories>
+        <category>Code Repository</category>
+      </categories>
+      <tags>
+        <tag>Code Repository</tag>
+        <tag>Html</tag>
+        <tag>Css</tag>
+        <tag>hover</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[pako-demo]]></title>
     <url>%2F2019%2F09%2F03%2Fjs-pako-demo%2F</url>
     <content type="text"><![CDATA[本次code demo展示了在前端如何使用pako进行数据压缩以及解压缩 关键字 Code Repository zip js pako 12345678910111213141516171819202122232425262728293031323334353637383940414243import pako from 'pako'// 压缩export const zip = (str) =&gt; &#123; let binaryString = pako.gzip(encodeURIComponent(str), &#123; to: 'string' &#125;) return btoa(binaryString)&#125;// 解压缩export const unzip = (sourceDate) =&gt; &#123; let strData = atob(sourceDate) // Convert binary string to character-number array let charData = strData.split('').map(function (x) &#123; return x.charCodeAt(0) &#125;) // Turn number array into byte-array let binData = new Uint8Array(charData) // // unzip let data = pako.inflate(binData) // Convert gunzipped byteArray back to ascii string: // 使用handleCodePoints防止堆栈溢出，原理未知，参考：https://www.jianshu.com/p/0d5791718b52 // strData = String.fromCharCode.apply(null, new Uint16Array(data)) strData = handleCodePoints(data) return decodeURIComponent(strData)&#125;function handleCodePoints (array) &#123; let CHUNK_SIZE = 0x8000 // arbitrary number here, not too small, not too big let index = 0 let length = array.length let result = '' let slice let arr = [] for (let i = 0, _i = array.length; i &lt; _i; i++) &#123; arr[i] = array[i] &#125; while (index &lt; length) &#123; slice = arr.slice(index, Math.min(index + CHUNK_SIZE, length)) // `Math.min` is not really necessary here I think result += String.fromCharCode.apply(null, slice) index += CHUNK_SIZE &#125; return result&#125; 总结:对于内容太多的解压缩会出现堆栈溢出的情况，所以需要用handleCodePoints去处理一下，详细情况请参阅https://www.jianshu.com/p/0d5791718b52 以下摘录部分原文：通过一般方式，可以正确解析数据，但是当数据量过大时，pako会报错误Maximumcallstacksizeexceeded;所以需要handleCodePoints方式处理，即将所有数据进行循环分块解析]]></content>
