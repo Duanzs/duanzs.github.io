@@ -215,6 +215,293 @@
             
 
   
+    <article id="post-js-download-openwindow" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+  
+  
+    <h1 itemprop="name">
+	
+	  <a class="article-title" href="/2019/09/27/js-download-openwindow/" target="_blank">js-download-openwindow</a>
+  
+    </h1>
+  
+
+
+  
+  
+<a href="/2019/09/27/js-download-openwindow/" class="archive-article-date">
+        <time datetime="2019-09-27T01:49:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-27</time>
+</a>
+
+  
+  
+  </header>
+  
+  <div class="article-entry" itemprop="articleBody">
+    
+    <blockquote>
+<p>业务经常有导出报表的场景，一般做法时后端组织数据生成文件后，前端调用接口进行下载。<br>前端下载最简单的一种方式就是利用open window(url)进行下载。但是如果需要传递参数，简单的open(url)就显得捉襟见肘了。<br>本次code demo展示了使用open window时使用js生成隐藏表单，然后发送请求从而达到目的</p>
+</blockquote>
+<p>关键字 <code>Code Repository</code> <code>download-file by openwindow</code> <code>js</code> <code>nodejs</code> </p>
+<h5 id="一些公共方法"><a href="#一些公共方法" class="headerlink" title="一些公共方法"></a>一些公共方法</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 生成隐藏表单</span></span><br><span class="line">generateHideForm (url) &#123;</span><br><span class="line">  <span class="keyword">let</span> tempForm = <span class="built_in">document</span>.createElement(<span class="string">'form'</span>)</span><br><span class="line">  tempForm.id = <span class="string">'tempForm1'</span></span><br><span class="line">  tempForm.method = <span class="string">'post'</span></span><br><span class="line">  tempForm.action = url</span><br><span class="line">  tempForm.target = <span class="string">'_blank'</span> <span class="comment">// 打开新页面</span></span><br><span class="line">  <span class="keyword">return</span> tempForm</span><br><span class="line">&#125;,</span><br><span class="line"><span class="comment">// 生成表单元素</span></span><br><span class="line">generateHideElement (name, value) &#123;</span><br><span class="line">  <span class="keyword">let</span> tempInput = <span class="built_in">document</span>.createElement(<span class="string">'input'</span>)</span><br><span class="line">  tempInput.type = <span class="string">'hidden'</span></span><br><span class="line">  tempInput.name = name</span><br><span class="line">  tempInput.value = value</span><br><span class="line">  <span class="keyword">return</span> tempInput</span><br><span class="line">&#125;,</span><br><span class="line"><span class="comment">// 提交表单</span></span><br><span class="line">submitForm(tempForm) &#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="built_in">document</span>.all) &#123;</span><br><span class="line">    tempForm.attachEvent(<span class="string">'onsubmit'</span>, () =&gt; &#123; &#125;)        <span class="comment">// IE</span></span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    tempForm.addEventListener(<span class="string">'submit'</span>, () =&gt; &#123; &#125;, <span class="literal">false</span>)    <span class="comment">// firefox</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">document</span>.body.appendChild(tempForm)</span><br><span class="line">  <span class="keyword">if</span> (<span class="built_in">document</span>.all) &#123;</span><br><span class="line">    tempForm.fireEvent(<span class="string">'onsubmit'</span>)</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// eslint-disable-next-line no-undef</span></span><br><span class="line">    tempForm.dispatchEvent(<span class="keyword">new</span> Event(<span class="string">'submit'</span>))</span><br><span class="line">  &#125;</span><br><span class="line">  tempForm.submit()</span><br><span class="line">  <span class="built_in">document</span>.body.removeChild(tempForm)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 一个表单元素</span></span><br><span class="line">exportSelectCompany () &#123;</span><br><span class="line">  <span class="keyword">let</span> url = <span class="string">'api/exports/xxxx'</span></span><br><span class="line">  <span class="keyword">let</span> tempForm = <span class="keyword">this</span>.generateHideForm(url)</span><br><span class="line">  <span class="keyword">let</span> hideInput1 = <span class="keyword">this</span>.generateHideElement(<span class="string">'codeList'</span>, [your list])</span><br><span class="line">  tempForm.appendChild(hideInput1)</span><br><span class="line">  <span class="keyword">this</span>.submitForm(tempForm)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 多个表单元素</span></span><br><span class="line">exportAllCompany () &#123;</span><br><span class="line">  <span class="keyword">let</span> url = <span class="string">'api/exports/yyyy'</span></span><br><span class="line">  <span class="keyword">let</span> tempForm = <span class="keyword">this</span>.generateHideForm(url)</span><br><span class="line">  <span class="built_in">Object</span>.keys(<span class="keyword">this</span>.form).forEach(<span class="function"><span class="params">key</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.form[key] !== <span class="literal">null</span> &amp;&amp; <span class="keyword">this</span>.form.param[key] !== <span class="literal">undefined</span>) &#123;</span><br><span class="line">      <span class="keyword">let</span> hideInput1 = <span class="keyword">this</span>.generateHideElement(key, <span class="keyword">this</span>.form.param[key])</span><br><span class="line">      tempForm.appendChild(hideInput1)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="keyword">this</span>.submitForm(tempForm)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>总结:</p>
+</blockquote>
+
+    
+
+    
+
+    
+
+  </div>
+  <div class="article-info article-info-index">
+    
+    
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Code Repository</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">js</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">download-file by openwindow</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+    
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Code-Repository//" class="article-tag-list-link color1">Code Repository</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+    
+    <p class="article-more-link">
+      <a class="article-more-a" href="/2019/09/27/js-download-openwindow/">展开全文 >></a>
+    </p>
+    
+
+    
+    <div class="clearfix"></div>
+  </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+
+  <section id="comments" class="comments">
+    <style>
+      .comments{margin:30px;padding:10px;background:#fff}
+      @media screen and (max-width:800px){.comments{margin:auto;padding:10px;background:#fff}}
+    </style>
+    <div id="vcomment" class="comment"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script>
+    var notify = 'false' == true ? true : false;
+    var verify = 'false' == true ? true : false;
+    window.onload = function() {
+        new Valine({
+            el: '.comment',
+            notify: notify,
+            verify: verify,
+            app_id: "H4dHG58Xmb6RjqUfYVNLup3w-gzGzoHsz",
+            app_key: "WjFgGnIRw2rAdtbuQWgSLl1e",
+            placeholder: "Just go go",
+            avatar:"mm"
+        });
+    }
+</script>
+
+  </section>
+
+
+  
+    <article id="post-js-watermark" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+  
+  
+    <h1 itemprop="name">
+	
+	  <a class="article-title" href="/2019/09/27/js-watermark/" target="_blank">js-watermark</a>
+  
+    </h1>
+  
+
+
+  
+  
+<a href="/2019/09/27/js-watermark/" class="archive-article-date">
+        <time datetime="2019-09-27T01:36:56.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-27</time>
+</a>
+
+  
+  
+  </header>
+  
+  <div class="article-entry" itemprop="articleBody">
+    
+    <blockquote>
+<p>本次code demo展示了在前端如何增加水印 </p>
+</blockquote>
+<p>关键字 <code>Code Repository</code> <code>js</code> <code>watermark</code> </p>
+<h4 id="普通html中增加水印"><a href="#普通html中增加水印" class="headerlink" title="普通html中增加水印"></a>普通html中增加水印</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!doctype html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>水印<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"warp"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"title"</span>&gt;</span>我是标题<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"content"</span>&gt;</span></span><br><span class="line">    我是内容我是内容我是内容我是内容我是内容我是内容</span><br><span class="line">    我是内容我是内容我是内容我是内容我是内容我是内容</span><br><span class="line">    我是内容我是内容我是内容我是内容我是内容我是内容</span><br><span class="line">    我是内容我是内容我是内容我是内容我是内容我是内容</span><br><span class="line">    我是内容我是内容我是内容我是内容我是内容我是内容</span><br><span class="line">    我是内容我是内容我是内容我是内容我是内容我是内容</span><br><span class="line">    我是内容我是内容我是内容我是内容我是内容我是内容</span><br><span class="line">    我是内容我是内容我是内容我是内容我是内容我是内容</span><br><span class="line">    我是内容我是内容我是内容我是内容我是内容我是内容</span><br><span class="line">    我是内容我是内容我是内容我是内容我是内容我是内容</span><br><span class="line">    我是内容我是内容我是内容我是内容我是内容我是内容</span><br><span class="line">    我是内容我是内容我是内容我是内容我是内容我是内容</span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="actionscript">  <span class="function"><span class="keyword">function</span> <span class="title">addWaterMarker</span><span class="params">(str)</span> </span>&#123;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">var</span> can = <span class="built_in">document</span>.createElement(<span class="string">'canvas'</span>);</span></span><br><span class="line"><span class="javascript">    <span class="keyword">var</span> body = <span class="built_in">document</span>.body;</span></span><br><span class="line">    body.appendChild(can);</span><br><span class="line"><span class="actionscript">    can.width = <span class="number">400</span>; <span class="comment">//画布的宽</span></span></span><br><span class="line"><span class="actionscript">    can.height = <span class="number">200</span>;<span class="comment">//画布的高度</span></span></span><br><span class="line"><span class="actionscript">    can.style.display = <span class="string">'none'</span>;</span></span><br><span class="line"><span class="actionscript">    <span class="keyword">var</span> cans = can.getContext(<span class="string">'2d'</span>);</span></span><br><span class="line"><span class="javascript">    cans.rotate(<span class="number">-20</span> * <span class="built_in">Math</span>.PI / <span class="number">180</span>); <span class="comment">//画布里面文字的旋转角度</span></span></span><br><span class="line"><span class="actionscript">    cans.font = <span class="string">"16px Microsoft JhengHei"</span>; <span class="comment">//画布里面文字的字体</span></span></span><br><span class="line"><span class="actionscript">    cans.fillStyle = <span class="string">"rgba(17, 17, 17, 0.50)"</span>;<span class="comment">//画布里面文字的颜色</span></span></span><br><span class="line"><span class="actionscript">    cans.textAlign = <span class="string">'left'</span>; <span class="comment">//画布里面文字的水平位置</span></span></span><br><span class="line"><span class="actionscript">    cans.textBaseline = <span class="string">'Middle'</span>; <span class="comment">//画布里面文字的垂直位置</span></span></span><br><span class="line"><span class="actionscript">    cans.fillText(str, can.width / <span class="number">3</span>, can.height / <span class="number">2</span>); <span class="comment">//画布里面文字的间距比例</span></span></span><br><span class="line"><span class="actionscript">    body.style.backgroundImage = <span class="string">"url("</span> + can.toDataURL(<span class="string">"image/png"</span>) + <span class="string">")"</span>; <span class="comment">//把画布插入到body中</span></span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="actionscript">  <span class="comment">//调用这个方法即可</span></span></span><br><span class="line"><span class="actionscript">  addWaterMarker(<span class="string">"水印"</span>);</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="Vue项目在页面添加水印功能"><a href="#Vue项目在页面添加水印功能" class="headerlink" title="Vue项目在页面添加水印功能"></a>Vue项目在页面添加水印功能</h4><h6 id="创建watermark-js文件"><a href="#创建watermark-js文件" class="headerlink" title="创建watermark.js文件"></a>创建watermark.js文件</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">let watermark = &#123;&#125;</span><br><span class="line"></span><br><span class="line">let setWatermark = (str) =&gt; &#123;</span><br><span class="line">    let id = &apos;1.23452384164.123412416&apos;;</span><br><span class="line"></span><br><span class="line">    if (document.getElementById(id) !== null) &#123;</span><br><span class="line">        document.body.removeChild(document.getElementById(id));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //创建一个画布</span><br><span class="line">    let can = document.createElement(&apos;canvas&apos;);</span><br><span class="line">    //设置画布的长宽</span><br><span class="line">    can.width = 120;</span><br><span class="line">    can.height = 120;</span><br><span class="line"></span><br><span class="line">    let cans = can.getContext(&apos;2d&apos;);</span><br><span class="line">    //旋转角度</span><br><span class="line">    cans.rotate(-15 * Math.PI / 180);</span><br><span class="line">    cans.font = &apos;18px Vedana&apos;;</span><br><span class="line">    //设置填充绘画的颜色、渐变或者模式</span><br><span class="line">    cans.fillStyle = &apos;rgba(200, 200, 200, 0.80)&apos;;</span><br><span class="line">    //设置文本内容的当前对齐方式</span><br><span class="line">    cans.textAlign = &apos;left&apos;;</span><br><span class="line">    //设置在绘制文本时使用的当前文本基线</span><br><span class="line">    cans.textBaseline = &apos;Middle&apos;;</span><br><span class="line">    //在画布上绘制填色的文本（输出的文本，开始绘制文本的X坐标位置，开始绘制文本的Y坐标位置）</span><br><span class="line">    cans.fillText(str, can.width / 8, can.height / 2);</span><br><span class="line"></span><br><span class="line">    let div = document.createElement(&apos;div&apos;);</span><br><span class="line">    div.id = id;</span><br><span class="line">    div.style.pointerEvents = &apos;none&apos;;</span><br><span class="line">    div.style.top = &apos;30px&apos;;</span><br><span class="line">    div.style.left = &apos;0px&apos;;</span><br><span class="line">    div.style.position = &apos;fixed&apos;;</span><br><span class="line">    div.style.zIndex = &apos;100000&apos;;</span><br><span class="line">    div.style.width = document.documentElement.clientWidth + &apos;px&apos;;</span><br><span class="line">    div.style.height = document.documentElement.clientHeight + &apos;px&apos;;</span><br><span class="line">    div.style.background = &apos;url(&apos; + can.toDataURL(&apos;image/png&apos;) + &apos;) left top repeat&apos;;</span><br><span class="line">    document.body.appendChild(div);</span><br><span class="line">    return id;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 该方法只允许调用一次</span><br><span class="line">watermark.set = (str) =&gt; &#123;</span><br><span class="line">    let id = setWatermark(str);</span><br><span class="line">    setInterval(() =&gt; &#123;</span><br><span class="line">        if (document.getElementById(id) === null) &#123;</span><br><span class="line">            id = setWatermark(str);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;, 500);</span><br><span class="line">    window.onresize = () =&gt; &#123;</span><br><span class="line">        setWatermark(str);</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export default watermark;</span><br></pre></td></tr></table></figure>
+
+<h6 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 在App.vue文件中，导入该文件</span><br><span class="line">import Watermark from &apos;@/common/js/watermark&apos;;  //路径不要写错</span><br><span class="line">// 在mounted函数中调用</span><br><span class="line">mounted: function () &#123;</span><br><span class="line">    Watermark.set(&quot;水印内容&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h6 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h6><blockquote>
+<p>一般我们的水印内容是当前用户的id或者姓名，在App.vue文件的mounted函数中有可能获取不到Vuex的用户信息.<br>我们一般在路由跳转的时候来进行用户的登录和权限的判断，所以我们可以将调用水印的方法放在router.afterEach()方法中，在router.beforeEach（）方法中判断用户的登录和权限的判断，所以router.afterEach()方法中一定可以获取到vuex中的用户信息。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">router.beforeEach((to, from, next) =&gt; &#123;</span><br><span class="line">  // 登录判断</span><br><span class="line">  store.dispatch(&apos;getuser&apos;).then((user) =&gt; &#123;</span><br><span class="line">    if (to.path === &apos;/&apos;) &#123;</span><br><span class="line">      if (user.isLeader) &#123;</span><br><span class="line">        next(&apos;/Summary&apos;);</span><br><span class="line">      &#125; else &#123; next(&apos;/list&apos;); &#125;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      next();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;).catch((error) =&gt; &#123;</span><br><span class="line">    if (error.message === &apos;noUser&apos;) &#123;</span><br><span class="line">     //返回登录界面</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      Dialog.confirm(&#123;</span><br><span class="line">        title: &apos;服务器错误&apos;,</span><br><span class="line">        message: &apos;获取用户信息失败,可尝试重新进入系统。&apos;,</span><br><span class="line">        showCancelButton: false,</span><br><span class="line">        showConfirmButton: false</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br><span class="line">router.afterEach((to) =&gt; &#123;</span><br><span class="line">  /* 路由发生变化修改页面title */</span><br><span class="line">  if (to.meta.title) &#123;</span><br><span class="line">    changTitle(to.meta.title);</span><br><span class="line">  &#125;</span><br><span class="line">  Watermark.set(store.state.user.userId);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>总结: 还要注意层级关系，在vue中直接向普通html引入，很可能会由于路由跳转等问题造成水印被覆盖。</p>
+</blockquote>
+
+    
+
+    
+
+    
+
+  </div>
+  <div class="article-info article-info-index">
+    
+    
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Code Repository</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">js</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">watermark</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+    
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Code-Repository//" class="article-tag-list-link color1">Code Repository</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+    
+    <p class="article-more-link">
+      <a class="article-more-a" href="/2019/09/27/js-watermark/">展开全文 >></a>
+    </p>
+    
+
+    
+    <div class="clearfix"></div>
+  </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+
+  <section id="comments" class="comments">
+    <style>
+      .comments{margin:30px;padding:10px;background:#fff}
+      @media screen and (max-width:800px){.comments{margin:auto;padding:10px;background:#fff}}
+    </style>
+    <div id="vcomment" class="comment"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script>
+    var notify = 'false' == true ? true : false;
+    var verify = 'false' == true ? true : false;
+    window.onload = function() {
+        new Valine({
+            el: '.comment',
+            notify: notify,
+            verify: verify,
+            app_id: "H4dHG58Xmb6RjqUfYVNLup3w-gzGzoHsz",
+            app_key: "WjFgGnIRw2rAdtbuQWgSLl1e",
+            placeholder: "Just go go",
+            avatar:"mm"
+        });
+    }
+</script>
+
+  </section>
+
+
+  
     <article id="post-electron-autoUpdate" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -781,118 +1068,6 @@
 
 
   
-    <article id="post-hello-world" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-  
-  
-    <h1 itemprop="name">
-	
-	  <a class="article-title" href="/2019/08/24/hello-world/" target="_blank">Hello World</a>
-  
-    </h1>
-  
-
-
-  
-  
-<a href="/2019/08/24/hello-world/" class="archive-article-date">
-        <time datetime="2019-08-24T03:19:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-24</time>
-</a>
-
-  
-  
-  </header>
-  
-  <div class="article-entry" itemprop="articleBody">
-    
-    <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-postdfsdsafdsasadfdsaf"><a href="#Create-a-new-postdfsdsafdsasadfdsaf" class="headerlink" title="Create a new postdfsdsafdsasadfdsaf"></a>Create a new postdfsdsafdsasadfdsaf</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-    
-
-    
-
-    
-
-  </div>
-  <div class="article-info article-info-index">
-    
-    
-    
-
-    
-    <p class="article-more-link">
-      <a class="article-more-a" href="/2019/08/24/hello-world/">展开全文 >></a>
-    </p>
-    
-
-    
-    <div class="clearfix"></div>
-  </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-
-  <section id="comments" class="comments">
-    <style>
-      .comments{margin:30px;padding:10px;background:#fff}
-      @media screen and (max-width:800px){.comments{margin:auto;padding:10px;background:#fff}}
-    </style>
-    <div id="vcomment" class="comment"></div>
-<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
-<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
-<script>
-    var notify = 'false' == true ? true : false;
-    var verify = 'false' == true ? true : false;
-    window.onload = function() {
-        new Valine({
-            el: '.comment',
-            notify: notify,
-            verify: verify,
-            app_id: "H4dHG58Xmb6RjqUfYVNLup3w-gzGzoHsz",
-            app_key: "WjFgGnIRw2rAdtbuQWgSLl1e",
-            placeholder: "Just go go",
-            avatar:"mm"
-        });
-    }
-</script>
-
-  </section>
-
-
-  
   
 
 
@@ -1026,14 +1201,6 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">electron</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">autoUpdater</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Html</a>
               </li>
              
@@ -1046,6 +1213,14 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">electron</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">autoUpdater</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">js</a>
               </li>
              
@@ -1054,11 +1229,19 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">download-file by openwindow</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">zip</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">pako</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">watermark</a>
               </li>
             
             <div class="clearfix"></div>
